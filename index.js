@@ -1,6 +1,8 @@
 const express = require('express');
 const builder = require('botbuilder');
 
+const handler = require('./handler');
+
 const app = express();
 
 // Create chat connector for communicating with the Bot Framework Service
@@ -10,9 +12,7 @@ const connector = new builder.ChatConnector({
 });
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
-const bot = new builder.UniversalBot(connector, (session) => {
-    session.send("You said: %s", session.message.text);
-});
+const bot = new builder.UniversalBot(connector, handler);
 
 app.post('/', connector.listen())
 
